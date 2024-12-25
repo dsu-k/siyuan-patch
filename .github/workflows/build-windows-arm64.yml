@@ -1,0 +1,42 @@
+name: Build Windows ARM64 Installer
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        architecture: [arm64]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build -- --arch arm64
+
+      - name: Create Installer
+        run: |
+          # Add commands to create the Windows ARM64 installer package
+          # Example: using a tool like Inno Setup or NSIS
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows-arm64-installer
+          path: path/to/your/installer.exe
